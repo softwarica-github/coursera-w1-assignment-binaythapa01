@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watchAll --coverage"
   },
   "author": "binay",
   "license": "ISC",
@@ -21,7 +21,8 @@
     "validator": "^13.1.1"
   },
   "devDependencies": {
-    "@shelf/jest-mongodb": "^1.2.3",
+    "@shelf/jest-mongodb": "^1.2.2",
+    "jest-environment-node": "^26.3.0",
     "supertest": "^4.0.2"
   }
 }

@@ -1,14 +1,14 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
 const express = require('express');
-const employeeRouter = require('../routes/employeeRouter');
-
+const leaveRouter = require('../routes/leaveRouter');
 
 const app = express();
  app.use (express.json());
-app.use('/employee', employeeRouter);
+ app.use ('/leave', leaveRouter);
 
-describe('Test of Employee Router', () => {
+
+ describe('Test of Leave Router', () => {
 
     beforeAll((done) => {
         mongoose.connect(global.__MONGO_URI__, {
@@ -32,42 +32,42 @@ describe('Test of Employee Router', () => {
 
     })
 
-    let employeeId;
+    let leaveID;
 
-    test('should create the new employee', () => {
+    test('should add the leave', () => {
 
         return request(app)
-        .post('/employee')
+        .post('/leave')
         .send({
-            firstname: 'jesttest',
-            lastname: 'lastjest',
-            department: 'jest',
-            post: 'jestsucess'
+            firstname: 'leavetesting',
+            lastname: 'lastleave',
+            des: 'testing',
+            days: '2'
         }).then ((res) => {
             console.log(res.body)
-            employeeId = res.body._id;
+            leaveID = res.body._id;
             expect(res.statusCode).toBe(201);
-            expect(res.body.firstname).toBe('jesttest');
+            expect(res.body.firstname).toBe('leavetesting');
             
         })
         
     })
 
-    test('should get all employee', () => {
+    test('should get all leave', () => {
         return request(app)
-        .get('/employee')
+        .get('/leave')
         .then((res) => {
             console.log(res.body)
             expect(res.statusCode).toBe(200);
             expect(res.body.length).toBe(1);
-            expect(res.body[0].firstname).toBe('jesttest');
+            expect(res.body[0].firstname).toBe('leavetesting');
         })
         
     })
 
-    test('should get employee with id', () => {
+    test('should get leave with id', () => {
 
-        return request(app).get(`/employee/${employeeId}`)
+        return request(app).get(`/leave/${leaveID}`)
         .then((res) => {
             console.log(res.body);
             expect(res.statusCode).toBe(200);
@@ -75,20 +75,20 @@ describe('Test of Employee Router', () => {
         
     })
 
-    test('should update employee data', () => {
-        return request(app).put(`/employee/${employeeId}`)
+    test('should update leave data', () => {
+        return request(app).put(`/leave/${leaveID}`)
         .send({
-            firstname: 'updatejest'
+            firstname: 'updatetesting'
         })
         .then((res) => {
             console.log(res.body)
-            expect(res.body.firstname).toBe('updatejest');
+            expect(res.body.firstname).toBe('updatetesting');
         })
         
     })
 
-    test('should delete the employee data', () => {
-        return request(app).delete('/employee')
+    test('should delete the leave data', () => {
+        return request(app).delete('/leave')
         .then((res) => {
             console.log(res.body);
             expect(res.statusCode).toBe(200);
@@ -96,15 +96,15 @@ describe('Test of Employee Router', () => {
         
     })
 
-    test('should delete employee data with id', () => {
-        return request(app).delete(`/employee/${employeeId}`)
+    test('should delete leave data with id', () => {
+        return request(app).delete(`/leave/${leaveID}`)
         .then((res) => {
             console.log(res.body);
             expect(res.statusCode).toBe(200);
         })
         
     })
-      
     
-})
+
+ })
 
